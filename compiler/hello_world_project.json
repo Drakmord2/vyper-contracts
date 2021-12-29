@@ -1,0 +1,15 @@
+{
+  "language": "Vyper",
+  "sources": {
+    "contracts/hello_world.vy": {
+      "content": "value: public(uint256)\nowner: public(address)\n\n@external\n@payable\ndef __init__():\n    assert msg.value > 0\n\n    self.value = msg.value\n    self.owner = msg.sender\n\n@external\ndef exercise():\n    assert self.value > 0\n    assert msg.sender == self.owner\n\n    selfdestruct(self.owner)"
+    }
+  },
+  "settings": {
+    "evmVersion": "istanbul",
+    "optimize": true,
+    "outputSelection": {
+      "contracts/hello_world.vy": ["abi", "evm.bytecode"]
+    }
+  }
+}
