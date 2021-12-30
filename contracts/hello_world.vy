@@ -1,8 +1,13 @@
 # Locks an amount of Ether in the contract and
 # get's it back on exercise.
 
-value: public(uint256)
-owner: public(address)
+value: uint256
+owner: address
+
+event Status:
+    owner: indexed(address)
+    value: uint256
+    info: String[20] 
 
 @external
 @payable
@@ -12,9 +17,12 @@ def __init__():
     self.value = msg.value
     self.owner = msg.sender
 
+    log Status(self.owner, self.value, "Contract created.")
+
 @external
 def exercise():
     assert self.value > 0
     assert msg.sender == self.owner
 
+    log Status(self.owner, self.value, "Contract exercised.")
     selfdestruct(self.owner)
